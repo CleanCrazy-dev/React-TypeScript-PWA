@@ -1,25 +1,18 @@
-import React from "react";
-import { Datagrid, List, TextField, EmailField, Show } from "react-admin";
-import {
-  Fab,
-  Tab,
-  Paper,
-  Grid,
-  Card,
-  CardHeader,
-  CardMedia,
-  CardContent,
-  CardAction,
-  Collapse,
-} from "@material-ui/core";
-import TabPanel from "@material-ui/lab/TabPanel";
-import TabList from "@material-ui/lab/TabList";
-import TabContext from "@material-ui/lab/TabContext";
-import RTOCard from "../../Custom/RTOCard";
-import CardGrid from "../../Custom/CardGrid";
+import { Fab, Paper, Tab } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
+import TabContext from "@material-ui/lab/TabContext";
+import TabList from "@material-ui/lab/TabList";
+import TabPanel from "@material-ui/lab/TabPanel";
+import React from "react";
+import { List } from "react-admin";
+import CardGrid from "../../Custom/CardGrid";
+import RTOCard from "../../Custom/RTOCard";
+import Modal from "@material-ui/core/Modal";
+import { makeStyles } from "@material-ui/core/styles";
+
 class Rto extends React.Component {
-  state = { value: "0" };
+  state = { value: "0", openEditModal: false };
+
   render() {
     return (
       <div>
@@ -33,7 +26,7 @@ class Rto extends React.Component {
             <TabPanel value="0">
               <List {...this.props}>
                 <CardGrid>
-                  <RTOCard source="rtos" />
+                  <RTOCard source="rtos" onEditClick={this.showEditPopup} />
                 </CardGrid>
               </List>
             </TabPanel>

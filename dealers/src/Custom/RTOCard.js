@@ -6,6 +6,7 @@ const RTOCard = ({
   record = {},
   isGenerate = false,
   onGenerateClick = null,
+  onEditClick,
 }) => {
   return (
     <Grid item md={3} sm={4}>
@@ -15,7 +16,7 @@ const RTOCard = ({
             {record[source].title}
           </Grid>
           <Grid item xs={6} md={6}>
-            <Edit />
+            <Edit onClick={() => onEditClick(source)} />
           </Grid>
           <Grid item xs={6} md={6}>
             {record[source].fullname}

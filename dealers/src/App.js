@@ -1,16 +1,20 @@
 import React from "react";
+import { ToastProvider } from "react-toast-notifications";
 import "./App.css";
-import { LoginScreen } from "./LoginScreen";
+import { BasePage } from "./Components/BasePage";
+import { HomeScreen } from "./Components/HomePage";
 
+class App extends React.Component {
 
-function App() {
-  return (
-    <div className="App">
-      <div>
-        <LoginScreen />
-      </div>
-    </div>
-  );
+  render() {
+    return (
+      <ToastProvider placement="top-center">
+        <BasePage>
+          <HomeScreen />
+        </BasePage>
+      </ToastProvider>
+    );
+  }
 }
 
 export default App;
