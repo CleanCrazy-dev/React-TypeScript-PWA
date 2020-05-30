@@ -2,7 +2,6 @@ import React from "react";
 import "./App.css";
 import { LoginScreen } from "./LoginScreen";
 
-const getLoginDetails;
 
 function App() {
   return (
