@@ -2,7 +2,6 @@ html,
 body,
 #root,
 .App {
-  height: 100%;
   font-family: 'Montserrat', sans-serif !important;
 }
 
@@ -37,6 +36,11 @@ button {
 .login-button:hover {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
+.layout { 
+  .RaMenuItemLink-icon-19{
+    justify-content: center;
+  }
+}
 
 .login-input {
   padding: 10px;
@@ -44,6 +48,11 @@ button {
   border: 1px solid;
   margin-bottom: 16px;
   border-radius: 12px
+}
+
+.profile-icon {
+  font-size: 40px !important;
+  margin-right: 10px;
 }
 
 .input-container {
