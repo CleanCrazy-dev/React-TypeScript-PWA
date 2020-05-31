@@ -1,6 +1,6 @@
 import React from "react";
 import { Datagrid, List, TextField } from "react-admin";
-function Home(props) {
+export const HomePage = (props) => {
   return (
     <div>
       <h3>Annual Sales Target</h3>
@@ -23,6 +23,4 @@ function Home(props) {
       </List>
     </div>
   );
-}
-
-export default Home;
+};

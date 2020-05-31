@@ -3,7 +3,7 @@ import { Add } from "@material-ui/icons";
 import React from "react";
 import { Datagrid, List, TextField } from "react-admin";
 
-class Support extends React.Component {
+export class Support extends React.Component {
   state = {
     isModalOpen: false,
   };
@@ -47,5 +47,3 @@ class Support extends React.Component {
     );
   }
 }
-
-export default Support;

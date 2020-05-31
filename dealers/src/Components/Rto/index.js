@@ -12,7 +12,7 @@ import CardGrid from "../../Custom/CardGrid";
 import RTOCard from "../../Custom/RTOCard";
 import "./RTO.scss";
 
-class Rto extends React.Component {
+export class Rto extends React.Component {
   state = {
     value: "0",
     openEditModal: false,
@@ -45,7 +45,7 @@ class Rto extends React.Component {
       open={this.state.openEditModal}
       aria-labelledby="server-modal-title"
       aria-describedby="server-modal-description"
-      className="rto-modal"
+      className="modal rto-modal"
     >
       <Grid container spacing={1} className="modal-content">
         <Grid item className="modal-margin" xs={12} md={12}>
@@ -140,5 +140,3 @@ class Rto extends React.Component {
     );
   }
 }
-
-export default Rto;
