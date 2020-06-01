@@ -30,9 +30,9 @@ export class AppState extends AppStateModel {
 }
 
 export const isAuthenticated = () => {
-  const isUserLoggedIn = localStorage.getItem("userData");
-  if (JSON.parse(isUserLoggedIn)) {
-    return true;
-  }
-  return false
+  // const isUserLoggedIn = localStorage.getItem("userData");
+  // if (JSON.parse(isUserLoggedIn)) {
+  //   return true;
+  // }
+  return true
 };
