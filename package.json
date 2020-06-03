@@ -87,7 +87,8 @@
     "build": "webpack --mode production --config webpack.config.js --progress",
     "test": "node scripts/test.js --env=jsdom",
     "postinstall": "npm run build",
-    "deploy": "node server.js"
+    "deploy": "node server.js",
+    "buildProd": "node buildScripts/build.js"
   },
   "devDependencies": {
     "@types/jest": "^22.2.3",
@@ -149,5 +150,17 @@
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
