@@ -32,6 +32,10 @@
   }
 }
 
+.padding-6 {
+  padding: 6px;
+}
+
 .drawer-link {
   text-decoration: none;
   color: black;

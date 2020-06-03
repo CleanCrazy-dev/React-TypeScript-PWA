@@ -44,7 +44,7 @@ export function mapStateToProps() {
   return {};
 }
 export const Customers = withRouter(
-  connect<{}, {}, ICustomersProps>(mapStateToProps)(CustomersImpl)
+  connect<{}, {}, ICustomersProps>(mapStateToProps)(CustomersImpl as any) as any
 );
 
 const CustomerList = (props: any) => {
