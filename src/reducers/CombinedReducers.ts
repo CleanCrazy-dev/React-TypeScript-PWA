@@ -6,7 +6,10 @@ import { rootReducer as materialsReducers } from "../data/material";
 import { rootReducer as mailReducers } from "../data/mail";
 import { formReducer } from "react-redux-form";
 
-const rxFormReducer = formReducer("user", {});
+const rxFormReducer = formReducer("userForm", {
+  userForm: { name: "", email: "" },
+  emial: "",
+});
 
 export const reducers = combineReducers({
   utility: UtilityReducer,

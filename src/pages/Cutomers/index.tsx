@@ -13,7 +13,7 @@ const options = [
   },
   {
     placeholder: "Name",
-    model: ".name",
+    model: ".email",
     type: "select",
   },
 ];

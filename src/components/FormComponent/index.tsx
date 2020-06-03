@@ -15,7 +15,7 @@ export const FormComponent = (props: any) => {
   const classes = useStyles();
   return (
     <Form
-      model="user"
+      model="userForm"
       onSubmit={(values) => {
         console.log(">> values", values);
       }}
