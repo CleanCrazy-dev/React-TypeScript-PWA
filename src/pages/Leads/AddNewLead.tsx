@@ -1,27 +1,28 @@
-import { Button, Typography, Grid } from "@material-ui/core";
+import { Button, Grid, Typography } from "@material-ui/core";
+import Checkbox from "@material-ui/core/Checkbox";
+import { Edit } from "@material-ui/icons";
 import DeleteIcon from "@material-ui/icons/Delete";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import * as React from "react";
 import { connect } from "react-redux";
+import Select from "react-select";
+import Image, { Shimmer } from "react-shimmer";
+import { BaseModal } from "src/components/BaseModal";
 import { FormComponent } from "src/components/FormComponent";
-import { Tabs } from "src/components/Tabs";
+import { TableWithGrid } from "src/components/TableWithGrid";
 import AppBar from "src/navigation/App.Bar";
-import "./leads.scss";
+import { Stepper } from "../BuyOrders/Stepper";
 import {
+  addressDetails,
+  leadDealer,
+  leadSource,
   options,
   streetInputs,
   vehicleInputs,
-  leadSource,
-  leadDealer,
-  addressDetails,
 } from "../Customers/customerInputs";
-import Image, { Shimmer } from "react-shimmer";
-import { TableWithGrid } from "src/components/TableWithGrid";
-import Checkbox from "@material-ui/core/Checkbox";
-import { Edit } from "@material-ui/icons";
-import Select from "react-select";
-import { BaseModal } from "src/components/BaseModal";
-import { Stepper } from "../BuyOrders/Stepper";
+import "./leads.scss";
+import { isDealer } from "src/state/Utility";
+import { Tabs } from "src/components/Tabs";
 
 const detailsObj = [
   {
@@ -131,6 +132,8 @@ export class AddNewLeadImpl extends React.PureComponent<
           formModel="leadForm"
           hasSubmit={true}
           options={vehicleInputs}
+          submitTitle="Save"
+          cancelTitle="Previous"
         />
       </React.Fragment>
     );
@@ -172,6 +175,8 @@ export class AddNewLeadImpl extends React.PureComponent<
           formModel="leadForm"
           hasSubmit={true}
           options={[]}
+          submitTitle="Next"
+          cancelTitle="Previous"
         />
       </React.Fragment>
     );
@@ -181,7 +186,7 @@ export class AddNewLeadImpl extends React.PureComponent<
   renderNegotitation = () => {
     return (
       <div className="negotitation-container">
-        <div>
+        <div style={{ textAlign: "right" }}>
           <Button variant="contained" color="default">
             Generate Proposal
           </Button>
@@ -216,6 +221,8 @@ export class AddNewLeadImpl extends React.PureComponent<
           onSubmit={(v: any) => {
             console.log(">> v", v);
           }}
+          submitTitle="Next"
+          cancelTitle="Previous"
           formModel="leadForm"
           hasSubmit={true}
           options={[]}
@@ -266,6 +273,8 @@ export class AddNewLeadImpl extends React.PureComponent<
           formModel="leadForm"
           hasSubmit={true}
           options={[]}
+          submitTitle="Next"
+          cancelTitle="Previous"
         />
       </div>
     );
@@ -330,6 +339,7 @@ export class AddNewLeadImpl extends React.PureComponent<
           }}
           formModel="leadForm"
           hasSubmit={true}
+          submitTitle="Save"
           options={[]}
         />
       </div>
@@ -462,7 +472,7 @@ export class AddNewLeadImpl extends React.PureComponent<
             Cancel
           </Button>
           <Button variant="contained" color="primary">
-            Submit
+            Save
           </Button>
         </div>
       </div>
@@ -538,59 +548,64 @@ export class AddNewLeadImpl extends React.PureComponent<
             Add New Lead
           </Typography>
           <div className="">
-            <Stepper
-              stepData={[
-                {
-                  label: "Draft",
-                  component: (
-                    <div>
-                      <SubFormHeading>Lead Basic Details</SubFormHeading>
-                      <FormComponent
-                        onSubmit={(v: any) => {
-                          console.log(">> v", v);
-                        }}
-                        formModel="userForm"
-                        hasSubmit={false}
-                        options={leadDealer}
-                      />
-                      <SubFormHeading>Lead Basic Details</SubFormHeading>
-                      <FormComponent
-                        onSubmit={(v: any) => {
-                          console.log(">> v", v);
-                        }}
-                        formModel="userForm"
-                        hasSubmit={true}
-                        options={addressDetails}
-                      />
-                    </div>
-                  ),
-                },
-                {
-                  label: "Documents Collection",
-                  component: (
-                    <div>
-                      <SubFormHeading>
-                        Regular Business Documentation
-                      </SubFormHeading>
-                      <SubFormHeading>Workshop Approval Process</SubFormHeading>
-                      <FormComponent
-                        onSubmit={(v: any) => {
-                          console.log(">> v", v);
-                        }}
-                        formModel="userForm"
-                        hasSubmit={true}
-                        options={[]}
-                      />
-                    </div>
-                  ),
-                },
-                {
-                  label: "Approval",
-                  component: <div>Approvals {`&`} Inventory Load</div>,
-                },
-              ]}
-            />
-            {/* <Tabs tabsData={this.tabData} /> */}
+            {!isDealer() ? (
+              <Stepper
+                stepData={[
+                  {
+                    label: "Draft",
+                    component: (
+                      <div>
+                        <SubFormHeading>Lead Basic Details</SubFormHeading>
+                        <FormComponent
+                          onSubmit={(v: any) => {
+                            console.log(">> v", v);
+                          }}
+                          formModel="userForm"
+                          hasSubmit={false}
+                          options={leadDealer}
+                        />
+                        <SubFormHeading>Lead Basic Details</SubFormHeading>
+                        <FormComponent
+                          onSubmit={(v: any) => {
+                            console.log(">> v", v);
+                          }}
+                          formModel="userForm"
+                          hasSubmit={true}
+                          options={addressDetails}
+                        />
+                      </div>
+                    ),
+                  },
+                  {
+                    label: "Documents Collection",
+                    component: (
+                      <div>
+                        <SubFormHeading>
+                          Regular Business Documentation
+                        </SubFormHeading>
+                        <SubFormHeading>
+                          Workshop Approval Process
+                        </SubFormHeading>
+                        <FormComponent
+                          onSubmit={(v: any) => {
+                            console.log(">> v", v);
+                          }}
+                          formModel="userForm"
+                          hasSubmit={true}
+                          options={[]}
+                        />
+                      </div>
+                    ),
+                  },
+                  {
+                    label: "Approval",
+                    component: <div>Approvals {`&`} Inventory Load</div>,
+                  },
+                ]}
+              />
+            ) : (
+              <Tabs tabsData={this.tabData} />
+            )}
           </div>
         </div>
       </AppBar>
