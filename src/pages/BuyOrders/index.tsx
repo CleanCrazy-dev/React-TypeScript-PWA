@@ -75,6 +75,8 @@ export class BuyOrdersImpl extends React.PureComponent<IBuyOrdersProps, any> {
       qty2: 10,
       qty3: 10,
       qty4: 10,
+      activeStepBuy: 0,
+      activeStepSell: 0,
     };
   }
 
@@ -108,7 +110,7 @@ export class BuyOrdersImpl extends React.PureComponent<IBuyOrdersProps, any> {
     </div>
   );
 
-  public renderForm = (label) => {
+  public renderForm = (label, type) => {
     return (
       <div className="card-container no-hover">
         <Grid container spacing={4}>
@@ -175,7 +177,19 @@ export class BuyOrdersImpl extends React.PureComponent<IBuyOrdersProps, any> {
           <Button variant="contained" color="default">
             Cancel
           </Button>
-          <Button variant="contained" color="primary">
+          <Button
+            onClick={() => {
+              if (type === "sell") {
+                this.setState({
+                  activeStepSell: this.state.activeStepSell + 1,
+                });
+              } else {
+                this.setState({ activeStepBuy: this.state.activeStepBuy + 1 });
+              }
+            }}
+            variant="contained"
+            color="primary"
+          >
             {label}
           </Button>
         </div>
@@ -186,14 +200,21 @@ export class BuyOrdersImpl extends React.PureComponent<IBuyOrdersProps, any> {
   public renderStepper = () => {
     return (
       <Stepper
+        activeStep={this.state.activeStepBuy}
         stepData={[
           {
             label: "Draft",
-            component: this.renderForm("Submit"),
+            component: this.renderForm("Submit", "buy"),
           },
           {
             label: "Submitted",
-            component: <SubmittedScreen />,
+            component: (
+              <SubmittedScreen
+                onClick={() =>
+                  this.setState({ activeStepBuy: this.state.activeStepBuy + 1 })
+                }
+              />
+            ),
           },
           {
             label: "PI Raised",
@@ -221,11 +242,10 @@ export class BuyOrdersImpl extends React.PureComponent<IBuyOrdersProps, any> {
                         10/02/2020
                       </div>
                     </div>
-                    <div className="padding-6">
+                    <div className="padding-6 invoce-add">
                       Billed to- GGFS Indiabulls, Lower Parel, Mumbai, MH
                       411093, India
                     </div>
-
                     <div className="invoice-table">
                       <div className="table-heads">
                         {invoiceData.billHeads.map((name) => (
@@ -276,6 +296,19 @@ export class BuyOrdersImpl extends React.PureComponent<IBuyOrdersProps, any> {
                               18}
                         </div>
                       </div>
+                    </div>{" "}
+                    <div className="align-center padding-6">
+                      <Button
+                        onClick={() =>
+                          this.setState({
+                            activeStepBuy: this.state.activeStepBuy + 1,
+                          })
+                        }
+                        variant="contained"
+                        color="primary"
+                      >
+                        Next
+                      </Button>
                     </div>
                   </div>
                 </Grid>
@@ -284,11 +317,27 @@ export class BuyOrdersImpl extends React.PureComponent<IBuyOrdersProps, any> {
           },
           {
             label: "Payment Details",
-            component: <PaymentDetailsScreen handleChange={this.hand} />,
+            component: (
+              <PaymentDetailsScreen
+                onClick={() =>
+                  this.setState({
+                    activeStepBuy: this.state.activeStepBuy + 1,
+                  })
+                }
+              />
+            ),
           },
           {
             label: "Dispatched",
-            component: <DispatchedScreen />,
+            component: (
+              <DispatchedScreen
+                onClick={() =>
+                  this.setState({
+                    activeStepBuy: this.state.activeStepBuy + 1,
+                  })
+                }
+              />
+            ),
           },
           { label: "Add Inventory", component: this.renderForm("Add") },
         ]}
@@ -346,22 +395,47 @@ export class BuyOrdersImpl extends React.PureComponent<IBuyOrdersProps, any> {
   public renderSellStepper = () => {
     return (
       <Stepper
+        activeStep={this.state.activeStepSell}
         stepData={[
           {
             label: "Draft",
-            component: this.renderForm("Submit"),
+            component: this.renderForm("Submit", "sell"),
           },
           {
             label: "Submitted",
-            component: <SubmittedScreen />,
+            component: (
+              <SubmittedScreen
+                onClick={() => {
+                  this.setState({
+                    activeStepSell: this.state.activeStepSell + 1,
+                  });
+                }}
+              />
+            ),
           },
           {
             label: "Payment Details",
-            component: <PaymentDetailsScreen />,
+            component: (
+              <PaymentDetailsScreen
+                onClick={() => {
+                  this.setState({
+                    activeStepSell: this.state.activeStepSell + 1,
+                  });
+                }}
+              />
+            ),
           },
           {
             label: "Dispatched",
-            component: <DispatchedScreen />,
+            component: (
+              <DispatchedScreen
+                onClick={() => {
+                  this.setState({
+                    activeStepSell: this.state.activeStepSell + 1,
+                  });
+                }}
+              />
+            ),
           },
         ]}
       />
@@ -429,7 +503,7 @@ const data = [
     orderStatus: "Draft",
   },
 ];
-const DispatchedScreen = () => {
+const DispatchedScreen = (props) => {
   return (
     <div className="card-container">
       <div>Dispatched</div>
@@ -464,7 +538,12 @@ const DispatchedScreen = () => {
           <span className="description-text"> Shipping Date - </span>
           10/05/2020
         </Grid>
-      </Grid>
+      </Grid>{" "}
+      <div className="align-center padding-6">
+        <Button onClick={props.onClick} variant="contained" color="primary">
+          Next
+        </Button>
+      </div>
     </div>
   );
 };
@@ -500,14 +579,14 @@ const PaymentDetailsScreen = (props) => {
               rows={4}
               variant="outlined"
               multiline={true}
-              className="form-input"
+              className="r-select"
             />
           </div>{" "}
           <div className="button-container">
             <Button variant="contained" color="default">
               Cancel
             </Button>
-            <Button variant="contained" color="primary">
+            <Button onClick={props.onClick} variant="contained" color="primary">
               Submit
             </Button>
           </div>
@@ -517,7 +596,7 @@ const PaymentDetailsScreen = (props) => {
   );
 };
 
-const SubmittedScreen = () => {
+const SubmittedScreen = (props) => {
   return (
     <div className="card-container">
       <Grid container={true}>
@@ -534,6 +613,11 @@ const SubmittedScreen = () => {
           <span className="description-text">Total -</span> 1742000
         </Grid>
       </Grid>
+      <div className="align-center padding-6">
+        <Button onClick={props.onClick} variant="contained" color="primary">
+          Next
+        </Button>
+      </div>
     </div>
   );
 };
