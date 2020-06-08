@@ -54,8 +54,8 @@ const StpperBG = (props: any) => {
       fill="none"
     >
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M793 26H0V32.4207L161.991 191.599L0 350.777V356H793V26Z"
         fill={props.fill}
       />

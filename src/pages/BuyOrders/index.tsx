@@ -115,7 +115,7 @@ export class BuyOrdersImpl extends React.PureComponent<IBuyOrdersProps, any> {
       <div className="card-container no-hover">
         <Grid container spacing={4}>
           <div className="product-selection">
-            <Grid xs={12} md={6} sm={6}>
+            <Grid item xs={12} md={6} sm={6}>
               <Select
                 className="r-select"
                 value={this.state.product1}
@@ -123,14 +123,14 @@ export class BuyOrdersImpl extends React.PureComponent<IBuyOrdersProps, any> {
                 options={products}
               />
             </Grid>
-            <Grid xs={12} md={4} sm={4}>
+            <Grid item xs={12} md={4} sm={4}>
               {this.renderValueManipulator("qty1")}
             </Grid>
           </div>
         </Grid>
         <Grid container spacing={4}>
           <div className="product-selection">
-            <Grid xs={12} md={6} sm={6}>
+            <Grid item xs={12} md={6} sm={6}>
               <Select
                 className="r-select"
                 value={this.state.product2}
@@ -138,14 +138,14 @@ export class BuyOrdersImpl extends React.PureComponent<IBuyOrdersProps, any> {
                 onChange={(v: any) => this.handleChange(v, "product2")}
               />{" "}
             </Grid>
-            <Grid xs={12} md={4} sm={4}>
+            <Grid item xs={12} md={4} sm={4}>
               {this.renderValueManipulator("qty2")}
             </Grid>
           </div>
         </Grid>
         <Grid container spacing={4}>
           <div className="product-selection">
-            <Grid xs={12} md={6} sm={6}>
+            <Grid item xs={12} md={6} sm={6}>
               <Select
                 className="r-select"
                 value={this.state.product3}
@@ -153,14 +153,14 @@ export class BuyOrdersImpl extends React.PureComponent<IBuyOrdersProps, any> {
                 onChange={(v: any) => this.handleChange(v, "product3")}
               />{" "}
             </Grid>
-            <Grid xs={12} md={4} sm={4}>
+            <Grid item xs={12} md={4} sm={4}>
               {this.renderValueManipulator("qty3")}
             </Grid>
           </div>
         </Grid>
         <Grid container spacing={4}>
           <div className="product-selection">
-            <Grid xs={12} md={6} sm={6}>
+            <Grid item xs={12} md={6} sm={6}>
               <Select
                 className="r-select"
                 value={this.state.product4}
@@ -168,7 +168,7 @@ export class BuyOrdersImpl extends React.PureComponent<IBuyOrdersProps, any> {
                 onChange={(v: any) => this.handleChange(v, "product4")}
               />{" "}
             </Grid>
-            <Grid xs={12} md={4} sm={4}>
+            <Grid item xs={12} md={4} sm={4}>
               {this.renderValueManipulator("qty4")}
             </Grid>
           </div>
@@ -220,7 +220,7 @@ export class BuyOrdersImpl extends React.PureComponent<IBuyOrdersProps, any> {
             label: "PI Raised",
             component: (
               <Grid container className="align-center">
-                <Grid xs={12} md={4} lg={4}>
+                <Grid item xs={12} md={4} lg={4}>
                   <div className="card-container no-hover">
                     <div className="head-title padding-6 ">
                       Performance Invoice
@@ -248,13 +248,15 @@ export class BuyOrdersImpl extends React.PureComponent<IBuyOrdersProps, any> {
                     </div>
                     <div className="invoice-table">
                       <div className="table-heads">
-                        {invoiceData.billHeads.map((name) => (
-                          <div className="heading">{name}</div>
+                        {invoiceData.billHeads.map((name, index) => (
+                          <div key={index} className="heading">
+                            {name}
+                          </div>
                         ))}
                       </div>
                       <div className="table-data">
-                        {invoiceData.billData.map((b) => (
-                          <div className="data-inner">
+                        {invoiceData.billData.map((b, index) => (
+                          <div key={index} className="data-inner">
                             <div className="data">{b.itemName}</div>
                             <div className="data">{b.unitCost}</div>
                             <div className="data">{b.qty}</div>
@@ -551,7 +553,7 @@ const DispatchedScreen = (props) => {
 const PaymentDetailsScreen = (props) => {
   return (
     <Grid container className="align-center">
-      <Grid xs={12} md={6} lg={6}>
+      <Grid item xs={12} md={6} lg={6}>
         <div className="card-container no-hover payment-mode">
           <div className="head-title">Payment Mode and Details</div>
           <div className="product-selection">
