@@ -1,48 +1,65 @@
 import * as React from "react";
 
-export const Stepper = (props: any) => {
-  const [activeStep, setActiveStep] = React.useState(0);
-  return (
-    <div className="stepper-container">
-      <div className="step-container">
-        {props.stepData.map((step: any, index: number) => {
-          return (
-            <div
-              key={index}
-              onClick={() => setActiveStep(index)}
-              className={`step ${
-                index === activeStep || index === props.activeStep
-                  ? "active"
-                  : ""
-              }`}
-            >
-              <StpperBG
-                fill={
-                  index <= activeStep || index <= props.activeStep
-                    ? "#48a89c"
-                    : "#b5b5b5"
-                }
-              />
-              <div className="step-label">
-                {" "}
-                <div className="step-label-inner">{step.label}</div>{" "}
-              </div>
-            </div>
-          );
-        })}
-      </div>
+export class Stepper extends React.Component<any, any> {
+  state = { activeStep: 0, stepData: this.props.stepData };
 
-      <div className="stepper-content">
-        {props.activeStep && props.activeStep < props.stepData.length
-          ? props.stepData[props.activeStep].component
-          : props.stepData[activeStep].component}
-        {/* {props.stepData.length - 1 > activeStep && (
-          <button onClick={() => setActiveStep(activeStep + 1)}>Next</button>
-        )} */}
+  shouldComponentUpdate(nextProps) {
+    console.log(">> nextProps", nextProps);
+    console.log(">> this.state", this.state);
+    return true;
+  }
+
+  render() {
+    const {
+      props,
+      state: { activeStep },
+    } = this;
+    return (
+      <div className="stepper-container">
+        <div className="step-container">
+          {props.stepData.map((step: any, index: number) => {
+            return (
+              <div
+                key={index}
+                onClick={() => {
+                  if (props.activeStep <= 1) {
+                    return;
+                  }
+                  this.setState({ activeStep: index });
+                }}
+                className={`step ${
+                  index === activeStep || index === props.activeStep
+                    ? "active"
+                    : ""
+                }`}
+              >
+                <StpperBG
+                  fill={
+                    index <= activeStep || index <= props.activeStep
+                      ? "#48a89c"
+                      : "#b5b5b5"
+                  }
+                />
+                <div className="step-label">
+                  {" "}
+                  <div className="step-label-inner">{step.label}</div>{" "}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="stepper-content">
+          {props.activeStep && props.activeStep < props.stepData.length
+            ? props.stepData[props.activeStep].component
+            : props.stepData[activeStep]
+            ? props.stepData[activeStep].component
+            : props.stepData[0].component}
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 const StpperBG = (props: any) => {
   return (
