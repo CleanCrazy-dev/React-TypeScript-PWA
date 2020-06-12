@@ -308,3 +308,31 @@
     height: 42px;
     align-items: center;
 }
+
+ .account-note{
+        margin-top: 20px;
+        font-weight: 600;
+        a{
+            color: #48a89c;
+            text-decoration: none;
+
+            position: relative;
+            &:before{
+                content: '';
+                width: 0;
+                height: 1px;
+                position: absolute;
+                background-color: #48a89c;
+                transition: all .3s ease-in-out;
+                bottom: -3px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            &:hover{
+                &:before{
+                    width: 100%;
+                }
+            }
+        }
+    }
+
