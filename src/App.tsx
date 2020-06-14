@@ -50,6 +50,9 @@ const RTOProcess = React.lazy(() =>
     default: RTOProcess,
   }))
 );
+const Support = React.lazy(() =>
+  import("./pages/support").then(({ Support }) => ({ default: Support }))
+);
 // import { LoginScreen } from "./pages/account/Login";
 // import { BuyOrders } from "./pages/BuyOrders";
 // import { Communications } from "./pages/Communicatios";
