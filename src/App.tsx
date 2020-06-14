@@ -50,9 +50,6 @@ const RTOProcess = React.lazy(() =>
     default: RTOProcess,
   }))
 );
-const Support = React.lazy(() =>
-  import("./pages/support").then(({ Support }) => ({ default: Support }))
-);
 // import { LoginScreen } from "./pages/account/Login";
 // import { BuyOrders } from "./pages/BuyOrders";
 // import { Communications } from "./pages/Communicatios";
@@ -66,7 +63,6 @@ const Support = React.lazy(() =>
 // import { RTOProcess } from "./pages/RTOProcess";
 // import { Support } from "./pages/support";
 import { store } from "./store/Store";
-import "./main.scss";
 import { MyUsers } from "./pages/MyUsers";
 import { AssignedDealers } from "./pages/AssignedDealers";
 import { DealerDetails } from "./pages/AssignedDealers/DealerDetails";
@@ -74,7 +70,8 @@ import { isLoggedIn, saveLoggedInUserData } from "./state/Utility";
 import { saveLoggedInUserDetails } from "./actions/App.Actions";
 import { AddNewOrder } from "./pages/BuyOrders/AddNewOrder";
 import { ForgotPassword } from "./pages/account/ForgotPassword";
-import {SignupScreen} from "src/pages/account/Signup/Signup";
+import { SignupScreen } from "src/pages/account/Signup/Signup";
+import "./main.scss";
 
 const Loader = () => (
   <div className="loader-main">
