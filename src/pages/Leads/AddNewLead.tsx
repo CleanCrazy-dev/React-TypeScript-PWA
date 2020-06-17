@@ -403,7 +403,7 @@ export class AddNewLeadImpl extends React.Component<
         <Grid container>
           {detailsObj.map((dData) => {
             return (
-              <Grid item xs={12} md={6} lg={6}>
+              <Grid item xs={12} md={12} lg={12}>
                 <div className="activity-card card-container">
                   <div className="details-text">
                     <span className="description-text">S. No</span>{" "}
