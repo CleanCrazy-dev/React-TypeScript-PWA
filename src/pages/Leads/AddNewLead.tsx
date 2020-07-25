@@ -5,6 +5,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import * as React from "react";
 import { connect } from "react-redux";
+import { Control, Form } from 'react-redux-form';
 import Select from "react-select";
 import Image, { Shimmer } from "react-shimmer";
 import { BaseModal } from "src/components/BaseModal";
@@ -159,7 +160,7 @@ export class AddNewLeadImpl extends React.Component<
   renderDocsForRTO = () => {
     return (
       <React.Fragment>
-        <SubFormHeading style={{ textAlign: "center" }}>
+        <SubFormHeading >
           Documents Required for RTO
         </SubFormHeading>
         <UploadContainer valKey={1} heading="Original R.C. Book" />
@@ -171,8 +172,8 @@ export class AddNewLeadImpl extends React.Component<
         <UploadContainer valKey={4} heading="Permit" />
         <UploadContainer valKey={5} heading="Tax" />
         <UploadContainer valKey={6} heading="Passing" />
-        <SubFormHeading style={{ textAlign: "center" }}>
-          Documents Required Loan
+        <SubFormHeading >
+          KYC Documents
         </SubFormHeading>
         <UploadContainer valKey={7} heading="Aadhaar Card" />
         <UploadContainer valKey={8} heading="PAN Card" />{" "}
@@ -604,10 +605,14 @@ export class AddNewLeadImpl extends React.Component<
                         <SubFormHeading>Lead Basic Details</SubFormHeading>
                         <FormComponent
                           onSubmit={(v: any) => {
-                            console.log(">> v", v);
+                            console.log(">> v", v.target.value);
+                            this.setState({
+                              activeStep: this.state.activeStep + 1,
+                            });
                           }}
                           formModel="userForm"
                           hasSubmit={false}
+                          submitTitle="Next"
                           options={leadDealer}
                         />
                         <SubFormHeading>Address Details</SubFormHeading>
@@ -620,9 +625,28 @@ export class AddNewLeadImpl extends React.Component<
                             });
                           }}
                           formModel="userForm"
-                          hasSubmit={true}
+                          hasSubmit={false}
                           options={addressDetails}
                         />
+                        <SubFormHeading >
+                          KYC Documents
+                        </SubFormHeading>
+                        <UploadContainer valKey={7} heading="Aadhaar Card" />
+                        <UploadContainer valKey={8} heading="PAN Card" />{" "}
+                        <FormComponent
+                          onSubmit={(v: any) => {
+                            console.log(">> v", v);
+                            this.setState({
+                              activeStep: this.state.activeStep + 1,
+                            });
+                          }}
+                          formModel="leadForm"
+                          hasSubmit={true}
+                          options={[]}
+                          submitTitle="Next"
+                          cancelTitle="Previous"
+                        />
+                        {/* <button type = "submit"> submit </button> */}
                       </div>
                     ),
                   },

@@ -17,6 +17,7 @@ import { Alert } from "../state/Alert";
 import { AppState, isAuthenticated } from "../state/AppState";
 import AppDrawer, { routes } from "./App.Drawer";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import { getUserDetails } from "./../state/Utility"
 //#endregion
 import ButterToast from "butter-toast";
 
@@ -127,9 +128,9 @@ class MiniDrawer extends React.Component<IAppProps, IState> {
           </Typography>
           {this.props.sideButton}
           <div className="align-center" onClick={this.handleLogout}>
-            <div>
+            {/* <div>
               Logout <span style={{ paddingRight: "3px" }} />{" "}
-            </div>
+            </div> */}
             <ExitToAppIcon />
             &nbsp; &nbsp;
           </div>

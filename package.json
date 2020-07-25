@@ -40,7 +40,9 @@
     "lodash": "^4.17.15",
     "material-ui": "^0.20.2",
     "mobx-react-devtools": "^5.0.1",
+    "moment": "^2.27.0",
     "mui-datatables": "^  2.15.0",
+    "node-cryptojs-aes": "^0.4.0",
     "node-sass": "^4.14.1",
     "object-assign": "4.1.1",
     "postcss-flexbugs-fixes": "3.2.0",
@@ -84,6 +86,8 @@
   "scripts": {
     "start": "webpack-dev-server --mode development --open --progress --inline --config config/webpack.config.dev.js",
     "build": "node scripts/build.js",
+    "build:qa": "REACT_APP_ENV=qa npm run build",
+    "build:production": "REACT_APP_ENV=production npm run build",
     "test": "node scripts/test.js --env=jsdom",
     "postinstall": "npm run build",
     "deploy": "node server.js",

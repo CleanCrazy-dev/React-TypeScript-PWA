@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Form, Control } from "react-redux-form";
+import { Form, Control, actions } from "react-redux-form";
 import {
   TextField,
   Select,
@@ -11,9 +11,16 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { store } from "../../store/Store";
+import { changeValuesInStore } from "src/state/Utility";
 
 export const FormComponent = (props: any) => {
   const classes = useStyles();
+  
+  function mapDispatchToProps() {
+    return {
+    setDefaultUser: (values) => actions.merge('editUserForm', values)
+    }
+  }
   return (
     <Form
       model={props.formModel}
@@ -24,6 +31,7 @@ export const FormComponent = (props: any) => {
       }}
     >
       <Grid container>
+      {console.log(props.options)}
         {props.options.map((opt: any) => {
           switch (opt.type) {
             case "text":
@@ -32,6 +40,8 @@ export const FormComponent = (props: any) => {
                   component={MUITextField}
                   type="text"
                   name={opt.name}
+                  // value={props.values.opt.model}
+                  onChange={e => changeValuesInStore(`${props.formModel}${opt.model}`, e.target.value)}
                   model={`${props.formModel}${opt.model}`}
                   label={opt.label}
                   errors={{ hasError: true }}
@@ -54,8 +64,10 @@ export const FormComponent = (props: any) => {
                 <Control
                   placeholder={opt.placeholder}
                   component={MUISelectField}
-                  type="text"
-                  name="Email"
+                  type="select"
+                  // name="Email"
+                  options={opt.options}
+                  name={opt.name}
                   model={`${props.formModel}${opt.model}`}
                   label={opt.label}
                 />
@@ -85,7 +97,10 @@ export const FormComponent = (props: any) => {
             {props.cancelTitle || "Cancel"}
           </Button>
           <Button
-            onClick={props.onSubmit}
+            // onClick={() => {
+            //   const values = store.getState().rxFormReducer[props.formModel];
+            //   props.onSubmit(values);
+            // }}
             variant="contained"
             color="primary"
             type="submit"
@@ -93,7 +108,7 @@ export const FormComponent = (props: any) => {
             {props.submitTitle || "Submit"}
           </Button>
         </div>
-      )}
+      )} 
     </Form>
   );
 };
@@ -147,12 +162,12 @@ const MUISelectField = (props: any) => {
           label={props.label}
           {...props}
         >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          <MenuItem value=""><em>None</em></MenuItem>
+          {props.options.map(opt => {
+            return(
+              <MenuItem value={opt.value}>{opt.label}</MenuItem>
+            );
+          })}
         </Select>
       </FormControl>
     </Grid>

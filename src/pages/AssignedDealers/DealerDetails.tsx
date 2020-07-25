@@ -68,6 +68,14 @@ export class DealerDetailsImpl extends React.PureComponent<
     }
   }
 
+  changePhoneFormat = (phone) =>{
+    const p = phone.split(")");
+    const p1 = p[0].substr(p.length - 1);
+    const p2 = p[1];
+    
+    return `+91 ${p1}${p2}` ;
+  }
+
   tabData = () => [
     {
       tabName: "Details",
@@ -80,36 +88,36 @@ export class DealerDetailsImpl extends React.PureComponent<
               }
               className="card-container"
             >
-              <SubFormHeading>Distributor Details</SubFormHeading>
+              <SubFormHeading>Dealer Details</SubFormHeading>
               <Grid container>
                 {" "}
                 <Grid item className="padding-6" xs={12} md={6} lg={6} sm={6}>
                   <span className="description-text">Name:</span>
-                  {distDetails.name}
+                  {this.props.dealerDetails.dealer.name}
                 </Grid>
                 <Grid item className="padding-6" xs={12} md={6} lg={6} sm={6}>
                   <span className="description-text">Account Name:</span>
-                  {distDetails.accountName}
+                  {this.props.dealerDetails.dealer.name}
                 </Grid>
-                <Grid item className="padding-6" xs={12} md={6} lg={6} sm={6}>
+                {/* <Grid item className="padding-6" xs={12} md={6} lg={6} sm={6}>
                   <span className="description-text">Account Type:</span>
-                  Savings
-                </Grid>
+                  {this.props.dealerDetails.dealer.bank_account_type__c}
+                </Grid> */}
                 <Grid item className="padding-6" xs={12} md={6} lg={6} sm={6}>
                   <span className="description-text">WhatsApp No.:</span>
-                  {distDetails.whatApp}
+                  {this.props.dealerDetails.dealer.whatsapp_no__c}
                 </Grid>
                 <Grid item className="padding-6" xs={12} md={6} lg={6} sm={6}>
                   <span className="description-text">Email:</span>
-                  {distDetails.email}
+                  {this.props.dealerDetails.dealer.email__c}
                 </Grid>
                 <Grid item className="padding-6" xs={12} md={6} lg={6} sm={6}>
                   <span className="description-text">Mobile:</span>
-                  {distDetails.mobile}
+                  {this.changePhoneFormat(this.props.dealerDetails.dealer.phone)}
                 </Grid>
                 <Grid item className="padding-6" xs={12} md={6} lg={6} sm={6}>
                   <span className="description-text">Dealer Avg Rating:</span>
-                  {distDetails.rating}
+                  {this.props.dealerDetails.dealer.rating}
                 </Grid>
               </Grid>
               <SubFormHeading>Address Details</SubFormHeading>
@@ -124,7 +132,7 @@ export class DealerDetailsImpl extends React.PureComponent<
                   sm={12}
                 >
                   <span className="description-text">Billing Address:</span>
-                  {distDetails.billingAddress}
+                  {this.props.dealerDetails.dealer.billingstreet} {this.props.dealerDetails.dealer.billingcity} {this.props.dealerDetails.dealer.billingpostalcode} {this.props.dealerDetails.dealer.billingstate}
                 </Grid>
                 <Grid
                   item
@@ -135,7 +143,7 @@ export class DealerDetailsImpl extends React.PureComponent<
                   sm={12}
                 >
                   <span className="description-text">Shipping Address:</span>
-                  {distDetails.shippingAddress}
+                  {this.props.dealerDetails.dealer.shippingstreet} {this.props.dealerDetails.dealer.shippingcity} {this.props.dealerDetails.dealer.shippingpostalcode} {this.props.dealerDetails.dealer.shippingstate}
                 </Grid>
               </Grid>
               <SubFormHeading>Bank and KYC Details</SubFormHeading>
@@ -148,29 +156,29 @@ export class DealerDetailsImpl extends React.PureComponent<
                   lg={12}
                   sm={12}
                 >
-                  <b>GST Number - 27AACCN1235323</b>
+                  <b>GST Number - {this.props.dealerDetails.dealer.gst_number__c}</b>
                 </Grid>
                 <Grid item className="padding-6" xs={12} md={6} lg={6} sm={6}>
                   <span className="description-text">Bank Name:</span>
-                  {distDetails.bankName}
+                  {this.props.dealerDetails.dealer.bank_name__c}
                 </Grid>
                 <Grid item className="padding-6" xs={12} md={6} lg={6} sm={6}>
                   <span className="description-text">IFSC:</span>
-                  {distDetails.IFSC}
+                  {this.props.dealerDetails.dealer.bank_ifsc_code__c}
                 </Grid>
                 <Grid item className="padding-6" xs={12} md={6} lg={6} sm={6}>
                   <span className="description-text">Account Number:</span>
-                  {distDetails.aaNum}
+                  {this.props.dealerDetails.dealer.bank_account_number__c}
                 </Grid>
                 <Grid item className="padding-6" xs={12} md={6} lg={6} sm={6}>
                   <span className="description-text">Account Type:</span>
-                  Saving
+                  {this.props.dealerDetails.dealer.bank_account_type__c}
                 </Grid>
               </Grid>
               <SubFormHeading>Inventory Purchased</SubFormHeading>
               <SubFormHeading>Related Customers</SubFormHeading>{" "}
               <Grid container>
-                {distDetails.custDetails.map((x) => {
+                {this.props.dealerDetails.customers.map((x) => {
                   return (
                     <React.Fragment>
                       <Grid
@@ -182,7 +190,7 @@ export class DealerDetailsImpl extends React.PureComponent<
                         sm={6}
                       >
                         <span className="description-text">Name -</span>
-                        {x.custName}
+                        {x.name}
                       </Grid>
                       <Grid
                         item
@@ -193,7 +201,7 @@ export class DealerDetailsImpl extends React.PureComponent<
                         sm={6}
                       >
                         <span className="description-text">Mob No. -</span>
-                        {x.mobileNumber}
+                        {this.changePhoneFormat(x.phone)}
                       </Grid>
                     </React.Fragment>
                   );
@@ -226,14 +234,14 @@ export class DealerDetailsImpl extends React.PureComponent<
           </div>
           <div className="card-container">
             <SubFormHeading>Product wise sale</SubFormHeading>
-            <ResponsiveContainer width="100%" height={400}>
+            <ResponsiveContainer width="100%" height={300}>
               <BarChart width={730} height={250} data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" />
+                <CartesianGrid />
                 <XAxis dataKey="name" />
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="uv" fill="#82ca9d" />
+                <Bar dataKey="uv" fill="#82ca9d" barSize ={100} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -248,7 +256,7 @@ export class DealerDetailsImpl extends React.PureComponent<
             </Button>
             <span style={{ padding: "4px" }} />
             <Button
-              onClick={() => this.props.history.push("/inventory")}
+              onClick={() => this.props.history.push({pathname: "/inventory", data: this.props.dealerDetails.dealer})}
               variant="contained"
               color="primary"
               type="submit"
@@ -272,6 +280,7 @@ export class DealerDetailsImpl extends React.PureComponent<
 
   render() {
     const { dealerDetails } = this.props;
+    console.log("dealerDetails: ", dealerDetails)
     return (
       <AppBar>
         <div style={{ padding: "20px" }}>

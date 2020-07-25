@@ -18,7 +18,8 @@ export const UtilityModel = Model<IUtility>({
 });
 
 export interface IHistory {
-  push: (path: string) => void;
+  push: (path) => void;
+  goBack;
 }
 
 export class Utility extends UtilityModel {
@@ -43,8 +44,17 @@ export function isLoggedIn() {
   return JSON.parse(localStorage.getItem("userData"));
 }
 
-export function saveLoggedInUserData(data) {
-  return localStorage.setItem("userData", JSON.stringify(data));
+export function getToken() {
+  console.log(JSON.parse(localStorage.getItem("userToken")))
+  return JSON.parse(localStorage.getItem("userToken"));
+}
+
+export function saveLoggedInUserToken(data) {
+  return localStorage.setItem("userToken", JSON.stringify(data));
+}
+
+export function saveLoggedInUserData(recordType) {
+  return localStorage.setItem("userData", JSON.stringify(recordType));
 }
 
 export function isDealer() {
