@@ -145,6 +145,7 @@ export class LeadsImpl extends React.Component<
           token: token
         })
       } else if (recordtypeid === "0122w000000cwfNAAQ") {
+        console.log("here");
         leadsData = await getData({
           query: `SELECT *
           FROM salesforce.Lead 
@@ -742,7 +743,7 @@ const changePhoneFormat = (phone) => {
 
 const CardDetails = (props: any) => {
   const { details, AssignedDealers } = props;
-
+  console.log(details);
   const assignedDealer = AssignedDealers && AssignedDealers.filter((item) =>
     item.sfid === details.assigned_dealer__c)
   // console.log("details", assignedDealer[0]);

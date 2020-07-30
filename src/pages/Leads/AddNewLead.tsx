@@ -29,6 +29,10 @@ import { GSelect } from "src/components/GSelect";
 import { getToken } from "src/state/Utility";
 import getData from "src/utils/getData";
 import { changeValuesInStore } from "src/state/Utility";
+import {
+  modelReducer,
+  actions
+} from 'react-redux-form';
 
 var loggedInUserDetails;
 const detailsObj = [
@@ -116,12 +120,18 @@ export class AddNewLeadImpl extends React.Component<
   }
 
   async componentDidMount() {
+    console.log('addd')
+    // this.props.dispatch(actions.reset('rxFormReducer.userForm'));
+    // this.props.dispatch(actions.reset('rxFormReducer'));
+    // this.props.dispatch(actions.setInitial('rxFormReducer'));
+    // this.props.dispatch(actions.setInitial('rxFormReducer.userForm'));
+   
     loggedInUserDetails = getToken().data;
     const { match: { params } } = this.props;
     if (params && params.id) {
       this.setState({ id: params.id });
       let leadData = await this.getleadDataById(loggedInUserDetails.token, params.id);
-      this.handelStateForEdit(leadData['0']);
+      this.handelStateForEdit(leadData['0'],loggedInUserDetails.record_type);
     }
   }
 
@@ -141,8 +151,13 @@ export class AddNewLeadImpl extends React.Component<
     return leadsData.result;
   }
 
-  handelStateForEdit = (leadData) => {
-    let formType = 'userForm';
+  handelStateForEdit = (leadData,record_type) => {
+    let formType;
+    if(record_type == "0122w000000cwfSAAQ"){
+      formType="leadForm";
+    }else if(record_type == "0122w000000cwfNAAQ"){
+      formType="userForm";
+    }
     console.log(leadData.lead_type__c);
     changeValuesInStore(`${formType}.email`, leadData.email)
     changeValuesInStore(`${formType}.firstName`, leadData.firstname)
@@ -170,7 +185,7 @@ export class AddNewLeadImpl extends React.Component<
         (FirstName,MiddleName,LastName,Email,Company,Whatsapp_number__c,
           Lead_Type__c,LeadSource,Status,Sub_Lead_Source__c,
           Rating,Street,City,State,PostalCode,Country,RecordTypeId,Assigned_Distributor__c)
-         Values('${firstName ?? ""}','${middleName ?? ""}','${lastName ?? ""}','${email ?? ""}','${company ?? ""}','${whatsAppNumber ?? 0}','${leadType ?? ""}',
+         Values('${firstName ?? ""}','${middleName ?? ""}','${lastName ?? ""}','${email ?? ""}','${company ?? ""}',${whatsAppNumber ?? 0},'${leadType ?? ""}',
          '${leadSource ?? ""}','${leadStatus ?? ""}','${subLeadSource ?? ""}','${rating ?? ""}','${street ?? ""}','${city ?? ""}','${state ?? ""}','${zip ?? ""}','${country ?? ""}','0122w000000chRuAAI','${data.sfid}')`,
         token: data.token
       });
@@ -183,19 +198,18 @@ export class AddNewLeadImpl extends React.Component<
   }
 
   UpdateLeadDistributer = async (data, userForm) => {
-    console.log(userForm);
     const { firstName, middleName, lastName, email, company, whatsAppNumber, leadType, leadSource, leadStatus, subLeadSource, rating, street, city, state, zip, country } = userForm;
     try {
-      const insertLead = await getData({
+      const updateLead = await getData({
         query: `update  salesforce.Lead set FirstName = '${firstName ?? ""}',MiddleName = '${middleName ?? ""}',LastName = '${lastName ?? ""}',
         Email = '${email ?? ""}',Company = '${company ?? ""}',Whatsapp_number__c='${whatsAppNumber ?? 0}',Lead_Type__c = '${leadType ?? ""}',
         LeadSource = '${leadSource ?? ""}',Status = '${leadStatus ?? ""}',Sub_Lead_Source__c = '${subLeadSource ?? ""}',Rating = '${rating ?? ""}',  
-        Street = '${street ?? ""}',City = '${city ?? ""}',State = '${state ?? ""}',PostalCode =${zip ?? ""},Country ='${country ?? ""}'
+        Street = '${street ?? ""}',City = '${city ?? ""}',State = '${state ?? ""}',PostalCode ='${zip ?? ""}',Country ='${country ?? ""}'
          where id='${this.state.id}'`,
         token: data.token
       });
-      console.log("insertLead => ", insertLead);
-      return insertLead.result;
+      console.log("updateLead => ", updateLead);
+      return updateLead.result;
     }
     catch (e) {
       console.log(e);
@@ -237,7 +251,7 @@ export class AddNewLeadImpl extends React.Component<
          Values('${firstName ?? ""}','${middleName ?? ""}','${lastName ?? ""}','${email ?? ""}','${company ?? ""}',${whatsAppNumber ?? 0},'${leadType ?? ""}',
          '${leadSource ?? ""}','${leadStatus ?? ""}','${subLeadSource ?? ""}','${rating ?? ""}','${street ?? ""}','${city ?? ""}','${state ?? ""}','${zip ?? ""}','${country ?? ""}',
          '${vehicleNumber ?? ""}','${fuelType ?? ""}','${wheeles ?? ""}','${vehicleMek ?? ""}','${vehicleModel ?? ""}','${usage ?? ""}','${vehicleType ?? ""}',
-         ${dailyRunning ?? 0},'${registration ?? "4/5/2019"}',${mfg ?? 0},'${chassis ?? ""}','${gstNumber ?? ""}','${data.sfid}','${data.record_type}',
+         ${dailyRunning ?? 0},'${registration ?? "4/5/2019"}',${mfg ?? 0},'${chassis ?? ""}','${gstNumber ?? ""}','${data.sfid}','0122w000000chRpAAI',
          ${dealerCheckboxes['CNG TUNE UP']},${dealerCheckboxes['KIT SERVICE']},${dealerCheckboxes['KIT REFITTING']},
          ${dealerCheckboxes['CYLINDER REFITTING']},
          ${dealerCheckboxes['CYLINDER REMOVE']},${dealerCheckboxes['GRECO ACE KIT FITTING']},${dealerCheckboxes['GRECO PRO KIT FITTING']})`,
@@ -246,6 +260,31 @@ export class AddNewLeadImpl extends React.Component<
       ``
       console.log("insertLead => ", insertLead);
       return insertLead.result;
+    }
+    catch (e) {
+      console.log(e);
+    }
+  }
+
+  UpdateLeadDealer = async (data, leadForm) => {
+    const { firstName, middleName, lastName, email, company, whatsAppNumber, leadType, leadSource, leadStatus, subLeadSource,
+      rating, street, city, state, zip, country, vehicleNumber, fuelType, wheeles, vehicleMek, vehicleModel, usage, vehicleType, dailyRunning,
+      registration, mfg, chassis, gstNumber } = leadForm;
+    const { dealerCheckboxes } = this.state;
+    try {
+      const updateLead = await getData({
+        query: `update  salesforce.Lead set FirstName = '${firstName ?? ""}',MiddleName = '${middleName ?? ""}',LastName = '${lastName ?? ""}',
+        Email = '${email ?? ""}',Company = '${company ?? ""}',Whatsapp_number__c='${whatsAppNumber ?? 0}',Lead_Type__c = '${leadType ?? ""}',
+        LeadSource = '${leadSource ?? ""}',Status = '${leadStatus ?? ""}',Sub_Lead_Source__c = '${subLeadSource ?? ""}',Rating = '${rating ?? ""}',  
+        Street = '${street ?? ""}',City = '${city ?? ""}',State = '${state ?? ""}',PostalCode ='${zip ?? ""}',Country ='${country ?? ""}',
+        Vehicle_no__c='${vehicleNumber ?? ""}',Fuel_Type__c='${fuelType ?? ""}',X3_or_4_Wheeler__c='${wheeles ?? ""}',Vehicle_Make__c='${vehicleMek ?? ""}',
+        Vehicle_Model__c='${vehicleModel ?? ""}',Usage_of_Vehicle__c='${usage ?? ""}',Engine__c='${vehicleType ?? ""}',
+        Daily_Running_Kms__c=${dailyRunning ?? 0},Registration_Year__c='${registration ?? "4/5/2019"}',Year_of_Manufacturing__c=${mfg ?? 0},Chassis_No__c=${chassis ?? ""},  GST_Number__c ='${gstNumber ?? ""}',
+         where id='${this.state.id}'`,
+        token: data.token
+      });
+      console.log("updateLead => ", updateLead);
+      return updateLead.result;
     }
     catch (e) {
       console.log(e);
@@ -868,6 +907,9 @@ export class AddNewLeadImpl extends React.Component<
 export function mapStateToProps(state) {
   const { userForm, leadForm } = state.rxFormReducer;
   return { userForm, leadForm };
+}
+export function mapDispatchToProps(dispatch){
+  return{dispatch}
 }
 export const AddNewLead = connect<{}, {}, IAddNewLeadProps>(mapStateToProps)(
   AddNewLeadImpl
