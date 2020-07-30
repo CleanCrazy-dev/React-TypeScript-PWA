@@ -106,7 +106,7 @@ export class AddNewLeadImpl extends React.Component<
     id: number;
     dealerCheckboxesChanged: boolean;
   }
-> {
+  > {
   constructor(props: IAddNewLeadProps) {
     super(props);
     this.state = {
@@ -158,8 +158,14 @@ export class AddNewLeadImpl extends React.Component<
     return leadsData.result;
   }
 
-  handelStateForEdit = (leadData) => {
-    let formType = "leadForm";
+  handelStateForEdit = (leadData, record_type) => {
+    let formType;
+    if (record_type == "0122w000000cwfSAAQ") {
+      formType = "leadForm";
+    } else if (record_type == "0122w000000cwfNAAQ") {
+      formType = "userForm";
+    }
+
     const editData = {
       email: leadData.email,
       firstName: leadData.firstname,
@@ -301,23 +307,23 @@ export class AddNewLeadImpl extends React.Component<
     const { dealerCheckboxes } = this.state;
     try {
       const updateLead = await getData({
-        query: `UPDATE salesforce.Lead set  FirstName = '${firstName ?? ""}', MiddleName = '${middleName ?? ""}', LastName = '${ lastName ?? "" }', Email = '${email ?? ""}', Company = '${company ?? ""}', Whatsapp_number__c = '${
-          whatsAppNumber ?? 0 }',
-        Lead_Type__c = '${leadType ?? ""}', LeadSource = '${ leadSource ?? "" }', Status = '${leadStatus ?? ""}',
-        Sub_Lead_Source__c = '${subLeadSource ?? ""}', Rating = '${ rating ?? "" }', Street = '${street ?? ""}',
-        City = '${city ?? ""}' , State = '${state ?? ""}' , PostalCode = '${ zip ?? "" }' , Country = '${country ?? ""}',
-        Vehicle_no__c = '${vehicleNumber ?? ""}', Fuel_Type__c = '${ fuelType ?? "" }',
-        X3_or_4_Wheeler__c = '${wheeles ?? ""}', Vehicle_Make__c = '${ vehicleMek ?? "" }',
-        Usage_of_Vehicle__c = '${usage ?? ""}', Engine__c = '${ vehicleType ?? "" }',
-        Daily_Running_Kms__c = ${dailyRunning ?? 0}, Registration_Year__c = '${ registration ?? "4/5/2019" }',
-        Year_of_Manufacturing__c = ${mfg ?? 0}, Chassis_No__c = '${ chassis ?? "" }',
-        GST_Number__c = '${gstNumber ?? ""}', Assigned_Dealer__c = '${ data.sfid }',
-        RecordTypeId = '${data.record_type}', CNG_TUNE_UP__c = ${ dealerCheckboxes["CNG TUNE UP"] },
-        KIT_SERVICE__c = ${ dealerCheckboxes["KIT SERVICE"] }, KIT_REFITTING__c = ${dealerCheckboxes["KIT REFITTING"]},
+        query: `UPDATE salesforce.Lead set  FirstName = '${firstName ?? ""}', MiddleName = '${middleName ?? ""}', LastName = '${lastName ?? ""}', Email = '${email ?? ""}', Company = '${company ?? ""}', Whatsapp_number__c = '${
+          whatsAppNumber ?? 0}',
+        Lead_Type__c = '${leadType ?? ""}', LeadSource = '${leadSource ?? ""}', Status = '${leadStatus ?? ""}',
+        Sub_Lead_Source__c = '${subLeadSource ?? ""}', Rating = '${rating ?? ""}', Street = '${street ?? ""}',
+        City = '${city ?? ""}' , State = '${state ?? ""}' , PostalCode = '${zip ?? ""}' , Country = '${country ?? ""}',
+        Vehicle_no__c = '${vehicleNumber ?? ""}', Fuel_Type__c = '${fuelType ?? ""}',
+        X3_or_4_Wheeler__c = '${wheeles ?? ""}', Vehicle_Make__c = '${vehicleMek ?? ""}',
+        Usage_of_Vehicle__c = '${usage ?? ""}', Engine__c = '${vehicleType ?? ""}',
+        Daily_Running_Kms__c = ${dailyRunning ?? 0}, Registration_Year__c = '${registration ?? "4/5/2019"}',
+        Year_of_Manufacturing__c = ${mfg ?? 0}, Chassis_No__c = '${chassis ?? ""}',
+        GST_Number__c = '${gstNumber ?? ""}', Assigned_Dealer__c = '${data.sfid}',
+        RecordTypeId = '${data.record_type}', CNG_TUNE_UP__c = ${dealerCheckboxes["CNG TUNE UP"]},
+        KIT_SERVICE__c = ${ dealerCheckboxes["KIT SERVICE"]}, KIT_REFITTING__c = ${dealerCheckboxes["KIT REFITTING"]},
         CYLINDER_REFITTING__c = ${dealerCheckboxes["CYLINDER REFITTING"]},
         CYLINDER_REMOVE__c = ${dealerCheckboxes["CYLINDER REMOVE"]},
         GRECO_ACE_KIT_FITTING__c = ${dealerCheckboxes["GRECO ACE KIT FITTING"]},
-        GRECO_PRO_KIT_FITTING__c = ${ dealerCheckboxes["GRECO PRO KIT FITTING"] } where id='${this.state.id}'`,
+        GRECO_PRO_KIT_FITTING__c = ${ dealerCheckboxes["GRECO PRO KIT FITTING"]} where id='${this.state.id}'`,
         token: data.token,
       });
       ``;
@@ -648,7 +654,7 @@ export class AddNewLeadImpl extends React.Component<
                           key={key}
                           name={key}
                           value={isChecked}
-                          {...this.state.id && { checked:isChecked}}
+                          {...this.state.id && { checked: isChecked }}
                         />
                       </div>
                     </div>
