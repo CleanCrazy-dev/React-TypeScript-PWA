@@ -916,7 +916,7 @@ const CardDetailsForDealer = (props: any) => {
         </Grid>
         <Grid className="padding-6-corners" item xs={4} md={4}>
           <span
-            onClick={() => this.props.history.push(`/leads/edit-lead/${details.id}`)}
+            onClick={() => props.history.push(`/lead/edit-lead/${details.id}`)}
             className="view"
           >
             Edit

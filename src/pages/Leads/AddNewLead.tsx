@@ -120,18 +120,17 @@ export class AddNewLeadImpl extends React.Component<
   }
 
   async componentDidMount() {
-    console.log('addd')
     // this.props.dispatch(actions.reset('rxFormReducer.userForm'));
     // this.props.dispatch(actions.reset('rxFormReducer'));
     // this.props.dispatch(actions.setInitial('rxFormReducer'));
     // this.props.dispatch(actions.setInitial('rxFormReducer.userForm'));
-   
+
     loggedInUserDetails = getToken().data;
     const { match: { params } } = this.props;
     if (params && params.id) {
       this.setState({ id: params.id });
       let leadData = await this.getleadDataById(loggedInUserDetails.token, params.id);
-      this.handelStateForEdit(leadData['0'],loggedInUserDetails.record_type);
+      this.handelStateForEdit(leadData['0'], loggedInUserDetails.record_type);
     }
   }
 
@@ -151,14 +150,13 @@ export class AddNewLeadImpl extends React.Component<
     return leadsData.result;
   }
 
-  handelStateForEdit = (leadData,record_type) => {
+  handelStateForEdit = (leadData, record_type) => {
     let formType;
-    if(record_type == "0122w000000cwfSAAQ"){
-      formType="leadForm";
-    }else if(record_type == "0122w000000cwfNAAQ"){
-      formType="userForm";
+    if (record_type == "0122w000000cwfSAAQ") {
+      formType = "leadForm";
+    } else if (record_type == "0122w000000cwfNAAQ") {
+      formType = "userForm";
     }
-    console.log(leadData.lead_type__c);
     changeValuesInStore(`${formType}.email`, leadData.email)
     changeValuesInStore(`${formType}.firstName`, leadData.firstname)
     changeValuesInStore(`${formType}.lastName`, leadData.lastname)
@@ -175,6 +173,24 @@ export class AddNewLeadImpl extends React.Component<
     changeValuesInStore(`${formType}.state`, leadData.state)
     changeValuesInStore(`${formType}.zip`, leadData.postalcode)
     changeValuesInStore(`${formType}.country`, leadData.country)
+
+
+    if (formType = "leadForm") {
+      changeValuesInStore(`${formType}.vehicleNumber`, leadData.Vehicle_no__c)
+      changeValuesInStore(`${formType}.fuelType`, leadData.Fuel_Type__c)
+      changeValuesInStore(`${formType}.wheeles`, leadData.X3_or_4_Wheeler__c)
+      changeValuesInStore(`${formType}.vehicleMek`, leadData.Vehicle_Make__c)
+      changeValuesInStore(`${formType}.vehicleModel`, leadData.Vehicle_Model__c)
+      changeValuesInStore(`${formType}.usage`, leadData.Usage_of_Vehicle__c)
+      changeValuesInStore(`${formType}.vehicleType`, leadData.Engine__c)
+      changeValuesInStore(`${formType}.dailyRunning`, leadData.Daily_Running_Kms__c)
+      changeValuesInStore(`${formType}.registration`, leadData.Registration_Year__c)
+      changeValuesInStore(`${formType}.mfg`, leadData.Year_of_Manufacturing__c)
+      changeValuesInStore(`${formType}.chassis`, leadData.Chassis_No__c)
+      changeValuesInStore(`${formType}.gstNumber`, leadData.GST_Number__c)
+    }
+
+
   };
 
   InsertLeadDistributor = async (data, userForm) => {
@@ -217,7 +233,7 @@ export class AddNewLeadImpl extends React.Component<
   }
   handleLeadDistributorSubmit = async () => {
     if (this.state.id) {
-      this.handleLeadDistributorUpdate(); 
+      this.handleLeadDistributorUpdate();
     } else {
       this.handleLeadDistributorInsert();
     }
@@ -291,9 +307,22 @@ export class AddNewLeadImpl extends React.Component<
     }
   }
 
+  handleLeadDealerSubmit = async () => {
+    if (this.state.id) {
+      this.handleLeadDealerUpdate();
+    } else {
+      this.handleLeadDealerInsert();
+    }
+  }
+
   handleLeadDealerInsert = async () => {
     loggedInUserDetails = getToken().data;
     this.InsertLeadDealer(loggedInUserDetails, this.props.leadForm);
+    //  this.props.history.push("/leads")
+  };
+  handleLeadDealerUpdate = async () => {
+    loggedInUserDetails = getToken().data;
+    this.UpdateLeadDealer(loggedInUserDetails, this.props.leadForm);
     //  this.props.history.push("/leads")
   };
   handleToggle = (event) => {
@@ -589,7 +618,7 @@ export class AddNewLeadImpl extends React.Component<
         <FormComponent
           onSubmit={(v: any) => {
             console.log(">> v", v);
-            this.handleLeadDealerInsert();
+            this.handleLeadDealerSubmit();
           }}
           formModel="leadForm"
           hasSubmit={true}
@@ -908,8 +937,8 @@ export function mapStateToProps(state) {
   const { userForm, leadForm } = state.rxFormReducer;
   return { userForm, leadForm };
 }
-export function mapDispatchToProps(dispatch){
-  return{dispatch}
+export function mapDispatchToProps(dispatch) {
+  return { dispatch }
 }
 export const AddNewLead = connect<{}, {}, IAddNewLeadProps>(mapStateToProps)(
   AddNewLeadImpl
