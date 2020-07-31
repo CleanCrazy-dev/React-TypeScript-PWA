@@ -19,7 +19,8 @@ import { getToken, isDealer } from "./../../state/Utility";
 import { saveDealerData } from "src/actions/App.Actions";
 
 export interface ICustomersProps {
-  history: IHistory
+  history: IHistory;
+  location: any
 }
 
 export class CustomersImpl extends React.PureComponent<ICustomersProps, {customers: any}> {
@@ -31,7 +32,11 @@ export class CustomersImpl extends React.PureComponent<ICustomersProps, {custome
   }
 
   async componentDidMount(){
+    const {location} = this.props;
     const { data } = getToken();
+    if(location && location.data && Object.keys(location.data).length){
+      data.sfid = location.data.sfid;
+    }
     const customerData = await this.getAllCustomers(data);
     this.setState({ customers : customerData });
   }

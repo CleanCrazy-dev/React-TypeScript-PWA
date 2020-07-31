@@ -89,6 +89,7 @@ const ratingfilterOptions = [
 ];
 
 export interface ILeadsProps {
+  location:any;
   history: IHistory;
   isDealer: boolean;
   leadsData: any;
@@ -126,8 +127,13 @@ export class LeadsImpl extends React.Component<
   };
 
   async componentDidMount() {
+    const {location} = this.props;
     loggedInUserDetails = getToken().data;
-    this.getAllLeadsData(loggedInUserDetails.token, loggedInUserDetails.sfid, loggedInUserDetails.record_type);
+    if(location && location.data && Object.keys(location.data).length){
+      this.getAllLeadsData(loggedInUserDetails.token, location.data.sfid, location.data.recordtypeid);
+    } else {
+      this.getAllLeadsData(loggedInUserDetails.token, loggedInUserDetails.sfid, loggedInUserDetails.record_type);
+    }
     this.getAllAssignedDealers(loggedInUserDetails);
   }
 
@@ -743,7 +749,6 @@ const changePhoneFormat = (phone) => {
 
 const CardDetails = (props: any) => {
   const { details, AssignedDealers } = props;
-  console.log(details);
   const assignedDealer = AssignedDealers && AssignedDealers.filter((item) =>
     item.sfid === details.assigned_dealer__c)
   // console.log("details", assignedDealer[0]);
