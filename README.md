@@ -1,3 +1,7 @@
+
+Hi,Let me know your skype id.
+you need to join with out team.
+
 ## Description
 This is a boilerplate for React using Typescript, Material UI and Redux, React Router.
 
