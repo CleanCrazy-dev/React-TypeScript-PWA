@@ -48,9 +48,9 @@ const rxFormReducer = combineForms({
     vehicleModel: "",
     usage: "",
     vehicleType: "",
-    dailyRunning: "",
-    registration: "",
-    mfg: "",
+    dailyRunning: null,
+    registration: null,
+    mfg: null,
     chassis: "",
     gstNumber: ""
   },
