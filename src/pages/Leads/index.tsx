@@ -137,7 +137,16 @@ export class LeadsImpl extends React.Component<
     this.getAllAssignedDealers(loggedInUserDetails);
   }
 
-  getAllLeadsData = async (token, sfid, recordtypeid) => {
+  getAllLeadsData = async (token, oldSfid, oldRecordtypeid) => {
+    const {location} = this.props;
+    console.log(location.data)
+    let sfid = oldSfid
+    let recordtypeid = oldRecordtypeid
+    if(location && location.data && Object.keys(location.data).length){
+      sfid = location.data.sfid;
+      recordtypeid = location.data.recordtypeid;
+    }
+    
     console.log("token: ", token);
     console.log("sfid: ", sfid);
     console.log("recordtypeid: ", recordtypeid);
