@@ -127,13 +127,7 @@ export class LeadsImpl extends React.Component<
   };
 
   async componentDidMount() {
-    const {location} = this.props;
-    loggedInUserDetails = getToken().data;
-    if(location && location.data && Object.keys(location.data).length){
-      this.getAllLeadsData(loggedInUserDetails.token, location.data.sfid, location.data.recordtypeid);
-    } else {
-      this.getAllLeadsData(loggedInUserDetails.token, loggedInUserDetails.sfid, loggedInUserDetails.record_type);
-    }
+    this.getAllLeadsData(loggedInUserDetails.token, loggedInUserDetails.sfid, loggedInUserDetails.record_type);
     this.getAllAssignedDealers(loggedInUserDetails);
   }
 
