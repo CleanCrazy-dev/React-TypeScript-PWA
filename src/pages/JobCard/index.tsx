@@ -264,7 +264,7 @@ export class AddNewJobCardImpl extends React.Component<
          Values('${firstName ?? ""}','${middleName ?? ""}','${lastName ?? ""}','${company ?? ""}','${email ?? ""}','${whatsAppNumber ?? 0}','${leadType ?? ""}',
          '${leadSource ?? ""}','${leadStatus ?? ""}','${subLeadSource ?? ""}','${rating ?? ""}','${street ?? ""}','${city ?? ""}','${state ?? ""}','${country ?? ""}','${zip ?? ""}',
          '${vehicleNumber ?? ""}','${fuelType ?? ""}','${wheeles ?? ""}','${vehicleMek ?? ""}','${vehicleModel ?? ""}','${usage ?? ""}','${vehicleType ?? ""}',
-         ${dailyRunning ?? 0},'${registration ?? "4/5/2019"}',${mfg ?? 2010},'${chassis ?? ""}','${gstNumber ?? ""}','${data.sfid}','0120l000000ot16AAA',
+         ${dailyRunning ?? 0},'${registration ?? "4/5/2019"}',${mfg ?? 2010},'${chassis ?? ""}','${gstNumber ?? ""}','${data.sfid}','0121s0000000WE4AAM',
          ${jobCardCheckboxes['CNG TUNE UP']},${jobCardCheckboxes['KIT SERVICE']},${jobCardCheckboxes['KIT REFITTING']},
          ${jobCardCheckboxes['CYLINDER REFITTING']},
          ${jobCardCheckboxes['CYLINDER REMOVE']},${jobCardCheckboxes['GRECO ACE KIT FITTING']},${jobCardCheckboxes['GRECO PRO KIT FITTING']}) RETURNING Id`,
@@ -394,8 +394,8 @@ export class AddNewJobCardImpl extends React.Component<
   // Basic Details Form
   public renderForm = () => {
     return (
+      <div className="job-card-container">
       <React.Fragment>
-
         <SubFormHeading>Lead Basic Details</SubFormHeading>
         <FormComponent
           onSubmit={(v: any) => {
@@ -438,6 +438,7 @@ export class AddNewJobCardImpl extends React.Component<
           cancelTitle="Previous"
         />
       </React.Fragment>
+      </div>
     );
   };
 
@@ -957,7 +958,7 @@ export class AddNewJobCardImpl extends React.Component<
             <Select 
             className="r-select"
             classNamePrefix="r-select-pre"
-            placeholder="Select Dealer"
+            placeholder="Select Customer / Lead"
             options={this.state.allCustAndLeads.map(p => ({
               label: p.name,
               value: p.sfid,
