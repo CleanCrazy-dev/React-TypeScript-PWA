@@ -17,7 +17,7 @@ export const vehicleInputs = [
     ],
   },
   {
-    label: "3 or 4 Wheeler.",
+    label: "3 or 4 Wheeler",
     model: ".wheeles",
     type: "select",
     required: true,
